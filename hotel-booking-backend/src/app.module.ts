@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { UsersModule } from './Users/Users.module';
 import { AuthModule } from './auth/auth.module';
+import {ServeStaticModule} from '@nestjs/serve-static';
+import {join} from 'path';
 
 @Module({
   imports:[
@@ -18,7 +20,10 @@ import { AuthModule } from './auth/auth.module';
       inject: [ConfigService],
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'hotel-booking-frontend', 'dist'),
+    }),
   ],
   controllers: [AppController],
   providers: [],
