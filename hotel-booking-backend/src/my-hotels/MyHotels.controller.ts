@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
 import { MyHotelsService } from "./MyHotels.service";
-import multer from "multer";
+import * as multer from "multer"
 
 const upload = multer.memoryStorage();
 
