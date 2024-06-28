@@ -6,6 +6,7 @@ import { UsersModule } from './Users/Users.module';
 import { AuthModule } from './auth/auth.module';
 import {ServeStaticModule} from '@nestjs/serve-static';
 import {join} from 'path';
+import { MyHotelsModule } from './my-hotels/MyHotels.module';
 
 @Module({
   imports:[
@@ -21,9 +22,10 @@ import {join} from 'path';
     }),
     UsersModule,
     AuthModule,
+    MyHotelsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'hotel-booking-frontend', 'dist'),
-    }),
+    })
   ],
   controllers: [AppController],
   providers: [],
