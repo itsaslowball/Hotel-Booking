@@ -20,8 +20,8 @@ export class UserController {
     @Body() body: RegisterUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    console.log('BODY', body);
     try {
+      console.log("BODY", body);
       const { token, user } = await this.userService.registerUser(body);
 
       res.cookie('auth_token', token, {

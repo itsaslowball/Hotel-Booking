@@ -67,3 +67,18 @@ export const signOut = async () => {
     throw new Error("Error during sign out");
   }
 };
+
+export const addMyHotel = async (formData: FormData) => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to save hotel");
+  }
+  const res = await response.json();
+  console.log(res);
+  return res;
+}
