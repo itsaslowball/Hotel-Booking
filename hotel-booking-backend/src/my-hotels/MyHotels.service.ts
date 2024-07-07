@@ -45,4 +45,15 @@ export class MyHotelsService {
                         throw new HttpException("Error creating hotel", 500);
                 }
         }
+
+        async getHotels(userId:string) { 
+                try {
+                        const hotels = await this.hotelModel.find({userId: userId});
+                        return hotels;
+                }
+                catch (e) {
+                        console.log("Error getting hotels: ", e);
+                        throw new HttpException("Error getting hotels", 500);
+                }
+        }
 }
