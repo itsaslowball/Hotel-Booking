@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 // import cloudinary from 'cloudinary';
 import { v2 as cloudinary } from 'cloudinary';
 import { Model } from "mongoose";
-import { HotelDto } from "src/dtos/hotel.dto";
+import { HotelRequestDto } from "src/dtos/hotel.dto";
 import { Hotel } from "src/models/hotel.model";
 
 
@@ -31,7 +31,7 @@ export class MyHotelsService {
                 }
         }
 
-        async addHotel(imageFiles: Array<Express.Multer.File>, newHotel: any, userId: string) {
+        async addHotel(imageFiles: Array<Express.Multer.File>, newHotel: HotelRequestDto, userId: string) {
                 try {
                         const imageUrls = await this.uploadImage(imageFiles);
                         newHotel.imageUrls = imageUrls;

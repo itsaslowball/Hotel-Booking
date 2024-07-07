@@ -1,7 +1,7 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { HotelDto } from '../dtos/hotel.dto';
+import { HotelRequestDto } from '../dtos/hotel.dto';
 
 @Injectable()
 export class ValidateHotelDtoPipe implements PipeTransform {

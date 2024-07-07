@@ -1,9 +1,9 @@
-import { IsDate, IsNotEmpty, IsNumber, IsString, Max, Min, max, min } from "class-validator";
+import { ParseIntPipe } from "@nestjs/common";
+import { Transform } from "class-transformer";
+import { IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, Max, Min, max, min } from "class-validator";
 
 
-export class HotelDto {
-        @IsString()
-        userId: string;
+export class HotelRequestDto {
 
         @IsString()
         @IsNotEmpty()
@@ -27,10 +27,12 @@ export class HotelDto {
 
         @IsNumber()
         @IsNotEmpty()
+        @Transform(({ value }) => parseInt(value, 10))
         adultCount: number;
 
         @IsNumber()
         @IsNotEmpty()
+        @Transform(({ value }) => parseInt(value, 10))
         childCount: number;
 
         @IsString({ each: true })
@@ -39,8 +41,10 @@ export class HotelDto {
 
         @IsNumber()
         @IsNotEmpty()
+        @Transform(({ value }) => parseInt(value, 10))
         pricePerNight: number;
 
+        @Transform(({ value }) => parseInt(value, 10))
         @IsNumber()
         @IsNotEmpty()
         @Min(1)
@@ -48,8 +52,15 @@ export class HotelDto {
         starRating: number;
 
         @IsString({ each: true })
+        @IsOptional()
         imageUrls: string[];
 
         @IsDate()
+        @IsOptional()
         lastUpdated: Date;
+
+        @IsString()
+        @IsOptional()
+        userId: string;
+
 }
