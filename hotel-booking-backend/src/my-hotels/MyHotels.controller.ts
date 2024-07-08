@@ -1,8 +1,8 @@
-import { Body, Controller, Post, UseInterceptors, UploadedFiles, HttpStatus, HttpCode, Request, HttpException, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors, UploadedFiles, HttpStatus, HttpCode, Request, HttpException, Get, Param, Put } from '@nestjs/common';
 import { MyHotelsService } from './MyHotels.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
-import {  HotelRequestDto } from 'src/dtos/hotel.dto';
+import { HotelRequestDto, HotelUpdatetDto } from 'src/dtos/hotel.dto';
 import { ValidateHotelDtoPipe } from 'src/pipes/ValidateHotelDto.pipe';
 import { Request as Req } from 'express';
 
@@ -19,7 +19,7 @@ const upload = {
 export class MyHotelsController {
         constructor(private myHotelsService: MyHotelsService) { }
 
-        
+
         @Post('/')
         @HttpCode(HttpStatus.CREATED)
         @UseInterceptors(FilesInterceptor('imageFiles', 6, upload))
@@ -28,10 +28,10 @@ export class MyHotelsController {
                 @Body() newHotel: HotelRequestDto,
                 @Request() req: Req,
         ) {
-                try{
+                try {
                         return this.myHotelsService.addHotel(imageFiles, newHotel, req.userId);
                 }
-                catch(e){
+                catch (e) {
                         console.log("Error creating hotel: ", e);
                         throw new HttpException("Error creating hotel", 500);
                 }
@@ -43,21 +43,39 @@ export class MyHotelsController {
                         const userId = req.userId;
                         return this.myHotelsService.getHotels(userId);
                 }
-                catch(e){
+                catch (e) {
                         console.log("Error getting hotels: ", e);
                         throw new HttpException(e.message || 'Error getting hotels', 500);
                 }
         }
 
         @Get('/:hotelId')
-        async getHotelById(@Request() req: Req, @Param('hotelId') hotelId: string){
+        async getHotelById(@Request() req: Req, @Param('hotelId') hotelId: string) {
                 try {
                         const userId = req.userId;
                         return this.myHotelsService.getHotelById(userId, hotelId);
                 }
-                catch(e){
+                catch (e) {
                         console.log("Error getting hotel: ", e);
                         throw new HttpException(e.message || 'Error getting hotel', 500);
+                }
+        }
+
+        @Put('/:hotelId')
+        @HttpCode(HttpStatus.OK)
+        @UseInterceptors(FilesInterceptor('imageFiles', 6, upload))
+        async updateHotel(
+                @Param('hotelId') hotelId: string, @Body() updateBody: HotelUpdatetDto,
+                @Request() req: Req,
+                @UploadedFiles() imageFiles: Array<Express.Multer.File>,
+        ) {
+                try {
+                        const userId = req.userId;
+                        return this.myHotelsService.updateHotel(userId, hotelId, updateBody, imageFiles);
+                }
+                catch (e) {
+                        console.log("Error updating hotel: ", e);
+                        throw new HttpException(e.message || 'Error updating hotel', 500);
                 }
         }
 }

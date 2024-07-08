@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 // import cloudinary from 'cloudinary';
 import { v2 as cloudinary } from 'cloudinary';
 import { Model } from "mongoose";
-import { HotelRequestDto } from "src/dtos/hotel.dto";
+import { HotelRequestDto, HotelUpdatetDto } from "src/dtos/hotel.dto";
 import { Hotel } from "src/models/hotel.model";
 
 
@@ -65,6 +65,30 @@ export class MyHotelsService {
                 catch (e) {
                         console.log("Error getting hotel: ", e);
                         throw new HttpException("Error getting hotel", 500);
+                }
+        }
+
+        async updateHotel(userId: string, hotelId: string, updateHotel: HotelUpdatetDto, imageFiles: Array<Express.Multer.File>) {
+                try {
+                        let hotelDetail = await this.getHotelById(userId, hotelId)
+                        let initialImageUrls = hotelDetail.imageUrls;
+                        let imgUrls = []
+                        if (updateHotel.imageUrls && updateHotel.imageUrls.length > 0) {
+                                imgUrls = initialImageUrls.filter((url: string) => updateHotel.imageUrls.includes(url));
+                        }
+
+                        if (imageFiles.length > 0) {
+                                const imageUrls = await this.uploadImage(imageFiles);
+                                let finalImageUrls = [...imgUrls, ...imageUrls]
+                                updateHotel.imageUrls = finalImageUrls;
+                        }
+                        updateHotel.lastUpdated = new Date();
+                        const hotel = await this.hotelModel.findOneAndUpdate({ userId: userId, _id: hotelId }, updateHotel, { new: true });
+                        return hotel;
+                }
+                catch (e) {
+                        console.log("Error updating hotel: ", e);
+                        throw new HttpException("Error updating hotel", 500);
                 }
         }
 
