@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseInterceptors, UploadedFiles, HttpStatus, HttpCode, Request, HttpException, Get } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors, UploadedFiles, HttpStatus, HttpCode, Request, HttpException, Get, Param } from '@nestjs/common';
 import { MyHotelsService } from './MyHotels.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
@@ -46,6 +46,18 @@ export class MyHotelsController {
                 catch(e){
                         console.log("Error getting hotels: ", e);
                         throw new HttpException(e.message || 'Error getting hotels', 500);
+                }
+        }
+
+        @Get('/:hotelId')
+        async getHotelById(@Request() req: Req, @Param('hotelId') hotelId: string){
+                try {
+                        const userId = req.userId;
+                        return this.myHotelsService.getHotelById(userId, hotelId);
+                }
+                catch(e){
+                        console.log("Error getting hotel: ", e);
+                        throw new HttpException(e.message || 'Error getting hotel', 500);
                 }
         }
 }

@@ -46,9 +46,9 @@ export class MyHotelsService {
                 }
         }
 
-        async getHotels(userId:string) { 
+        async getHotels(userId: string) {
                 try {
-                        const hotels = await this.hotelModel.find({userId: userId});
+                        const hotels = await this.hotelModel.find({ userId: userId });
                         return hotels;
                 }
                 catch (e) {
@@ -56,4 +56,16 @@ export class MyHotelsService {
                         throw new HttpException("Error getting hotels", 500);
                 }
         }
+
+        async getHotelById(userId: string, hotelId: string) {
+                try {
+                        const hotel = await this.hotelModel.findOne({ userId: userId, _id: hotelId });
+                        return hotel;
+                }
+                catch (e) {
+                        console.log("Error getting hotel: ", e);
+                        throw new HttpException("Error getting hotel", 500);
+                }
+        }
+
 }

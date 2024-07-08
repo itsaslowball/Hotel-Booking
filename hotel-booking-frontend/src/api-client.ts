@@ -93,4 +93,16 @@ export const fetchMyHotels = async () => {
     throw new Error("Failed to get hotels");
   }
   return response.json();
- }
+}
+
+export const fetchMyHotelById = async (hotelId: string) => { 
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels/${hotelId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to get hotel");
+  }
+  return response.json();
+}
