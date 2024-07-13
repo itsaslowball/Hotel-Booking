@@ -3,7 +3,6 @@ import DatePicker from "react-datepicker";
 import { useSearchContext } from "../context/SearchContext";
 import { useAppContext } from "../context/AppContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import React from "react";
 
 type Props = {
         hotelId: string;

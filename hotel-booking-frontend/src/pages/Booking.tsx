@@ -1,4 +1,3 @@
-import React from 'react'
 import { useQuery } from 'react-query'
 import * as apiClient from '../api-client'
 
@@ -7,6 +6,7 @@ const Booking = () => {
                 "fetchCurrentUser",
                 apiClient.fetchCurrentUser
         )
+        console.log(currentUser)
   return (
     <div>Booking</div>
   )

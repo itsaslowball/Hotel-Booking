@@ -1,4 +1,3 @@
-import { parse } from "dotenv";
 import React, { useContext, useState } from "react";
 
 type SearchContext = {
