@@ -24,4 +24,5 @@ export type HotelSearchResponse = {
                 page: number;
                 pages: number;
         };
+        
 };
