@@ -2,7 +2,6 @@ import { HttpException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Hotel } from "src/models/hotel.model";
-import { HotelType } from "src/shared/types";
 
 @Injectable()
 export class HotelService{
@@ -26,5 +25,15 @@ export class HotelService{
                         throw new HttpException(e.message, e.status);
                 }
 
+        }
+        
+        async getHotelById(hotelId: string) {
+                try {
+                        const hotel = await this.hotelModel.findById(hotelId);
+                        return hotel;
+                }
+                catch (e) {
+                        throw new HttpException(e.message, e.status);
+                }
         }
 }

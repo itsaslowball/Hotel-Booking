@@ -5,15 +5,30 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Req,
   Res,
 } from '@nestjs/common';
 import { RegisterUserDto } from 'src/dtos/user.dto';
 import { UserService } from './Users.service';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('api/users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
+
+  @Get('/me')
+  async getMyDetails(@Req() req: Request) {
+    try {
+      const userId = req.userId;
+      return this.userService.getUserById(userId);
+    }
+    catch (error) {
+      throw new HttpException(
+        error.message || 'User not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 
   @Post('/register')
   async registerUser(

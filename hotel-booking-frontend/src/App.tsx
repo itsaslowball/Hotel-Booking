@@ -7,6 +7,8 @@ import { AddHotel } from "./pages/AddHotel";
 import { MyHotels } from "./pages/MyHotels";
 import { EditHotel } from "./pages/EditHotel";
 import Search from "./pages/Search";
+import Details from "./pages/Details";
+import Booking from "./pages/Booking";
 
 
 function App() {
@@ -39,8 +41,26 @@ function App() {
             </Layout>
           }
         />
+
+        <Route path="/detail/:hotelId"
+          element={
+            <Layout>
+              <Details />
+            </Layout>
+          }
+        />
         
         {isLoggedIn && <>
+          
+          <Route
+            path="/hotel/:hotelId/booking"
+            element={
+              <Layout>
+                <Booking />
+               </Layout>
+              
+            } />
+
           <Route path='/add-hotels' element={
             <Layout>
               <AddHotel />
@@ -58,6 +78,7 @@ function App() {
               <EditHotel />
             </Layout>
           } />
+
 
         </>
         }

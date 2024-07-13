@@ -1,6 +1,6 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
-import { HotelSearchResponse } from "../../hotel-booking-backend/src/shared/types";
+import { HotelSearchResponse, UserType } from "../../hotel-booking-backend/src/shared/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -164,6 +164,31 @@ export const searchHotels = async (searchParams: SearchParams):Promise<HotelSear
 
   if(!response.ok) {
     throw new Error("Failed to search hotels");
+  }
+
+  return response.json();
+}
+
+export const fetchHotelById = async (hotelId: string) => { 
+  const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to get hotel");
+  }
+  return response.json();
+}
+
+export const fetchCurrentUser = async ():Promise<UserType> => {
+  const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to get current user");
   }
 
   return response.json();

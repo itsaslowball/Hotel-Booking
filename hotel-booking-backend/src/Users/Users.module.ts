@@ -31,6 +31,6 @@ import { AuthMiddleware } from 'src/middlewares/auth.middleware';
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes({path:'api/users/register', method:RequestMethod.GET});
+    consumer.apply(AuthMiddleware).forRoutes({path:'api/users/register', method:RequestMethod.GET}, {path:'api/users/me', method:RequestMethod.GET});
   }
 }

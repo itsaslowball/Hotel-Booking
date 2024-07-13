@@ -56,4 +56,8 @@ export class UserService {
       }
     }
   }
+
+  async getUserById(userId: string) { 
+    return this.userModel.findById(userId).select('-password');
+  }
 }

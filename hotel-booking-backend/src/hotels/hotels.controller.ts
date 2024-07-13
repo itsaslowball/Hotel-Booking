@@ -1,6 +1,6 @@
-import { Controller, Get, HttpException, Query } from "@nestjs/common";
+import { Controller, Get, HttpException, Param, Query, Req } from "@nestjs/common";
 import { HotelService } from "./hotels.service";
-import { HotelSearchResponse } from "src/shared/types";
+import { Request } from "express";
 
 @Controller('api/hotels')
 export class HotelController {
@@ -15,13 +15,13 @@ export class HotelController {
         }
 
 
-        @Get('/search')
-        async searchHotels(@Query() query: any) {
 
+        @Get('/search')
+        async searchHotels(@Query() query:any) {
                 try {
                         const constructedQuery = this.constructSearchQuery(query);
                         let sortOption = {};
-                        switch (query.sortOption) { 
+                        switch (query.sortOption) {
                                 case "starRating":
                                         sortOption = { starRating: -1 }
                                         break;
@@ -55,7 +55,6 @@ export class HotelController {
                         throw new HttpException(e.message, e.status);
                 }
         }
-
 
         constructSearchQuery = (query: any) => {
                 let constructedQuery: any = {};
@@ -99,5 +98,10 @@ export class HotelController {
                 }
 
                 return constructedQuery;
+        }
+
+        @Get('/:id')
+        async getHotelById(@Param() param: any) {
+                return await this.hotelService.getHotelById(param.id);
         }
 }
