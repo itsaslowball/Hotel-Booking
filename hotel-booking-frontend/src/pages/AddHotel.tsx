@@ -20,7 +20,6 @@ export const AddHotel = () => {
   )
   
   const handleSave = (hotelFormData: FormData) => {
-    console.log("FormData: ", hotelFormData);
     mutate(hotelFormData);
   }
 

@@ -6,6 +6,7 @@ import { useAppContext } from "./context/AppContext";
 import { AddHotel } from "./pages/AddHotel";
 import { MyHotels } from "./pages/MyHotels";
 import { EditHotel } from "./pages/EditHotel";
+import Search from "./pages/Search";
 
 
 function App() {
@@ -30,6 +31,14 @@ function App() {
             <SignIn />
           </Layout>
         } />
+
+        <Route path="/search"
+          element={ 
+            <Layout>
+              <Search />
+            </Layout>
+          }
+        />
         
         {isLoggedIn && <>
           <Route path='/add-hotels' element={

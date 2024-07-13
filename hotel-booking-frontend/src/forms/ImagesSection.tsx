@@ -9,7 +9,6 @@ export const ImagesSection = () => {
     const handleDelete = (event: React.MouseEvent<HTMLButtonElement>, url: string) => { 
         event.preventDefault();
         setValue("imageUrls", existingImageUrls?.filter((imageUrl) => imageUrl !== url));
-
     }
 
     return (
