@@ -1,7 +1,6 @@
-import { ObjectId } from "mongoose";
 
 export type HotelType = {
-        _id: ObjectId;
+        _id: string;
         userId: string;
         name: string;
         city: string;
