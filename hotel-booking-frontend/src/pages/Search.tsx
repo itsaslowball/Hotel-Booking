@@ -69,8 +69,7 @@ const Search = () => {
                                 : prevFacilities.filter((prevFacility) => prevFacility !== facility)
                 );
         };
-        console.log("Hotel:",hotelData);
-        console.log(hotelData?.pagination);
+
 
         return (
                 <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
