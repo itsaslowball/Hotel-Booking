@@ -4,12 +4,15 @@ import { BookingForm } from '../forms/BookingForm'
 import { useSearchContext } from '../context/SearchContext'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import  BookingDetailSummary  from '../components/BookingDetailSummary'
+import BookingDetailSummary from '../components/BookingDetailSummary'
+import { Elements } from '@stripe/react-stripe-js'
+import { useAppContext } from '../context/AppContext'
 
-const Booking = () => { 
+const Booking = () => {
 
         const search = useSearchContext();
         const { hotelId } = useParams();
+        const { stripePromise } = useAppContext();
 
         const [numberOfNights, setNumberOfNights] = useState<number>(0);
 
@@ -17,9 +20,17 @@ const Booking = () => {
                 if (search.checkIn && search.checkOut) {
                         const nights = Math.abs(search.checkOut.getTime() - search.checkIn.getTime()) / (1000 * 60 * 60 * 24);
                         setNumberOfNights(Math.ceil(nights));
-          }
+                }
         }, [search.checkIn, search.checkOut]);
-        
+
+
+        const { data: paymentIntentData } = useQuery('createPaymentIntent',
+                () => apiClient.createPaymentIntent(hotelId as string, numberOfNights),
+                {
+                        enabled: !!hotelId && numberOfNights > 0
+                }
+        )
+
 
         const { data: hotel } = useQuery('fetchHotelById',
                 () => apiClient.fetchHotelById(hotelId as string),
@@ -44,10 +55,18 @@ const Booking = () => {
                                 adultCount={search.adultCount}
                                 childCount={search.childCount}
                                 numberOfNights={numberOfNights}
-                                hotel = {hotel}
+                                hotel={hotel}
                         />
-                        {currentUser &&
-                                <BookingForm currentUser={currentUser} />
+                        {currentUser && paymentIntentData &&
+                                (
+                                <Elements stripe={stripePromise}
+                                        options={{
+                                                clientSecret: paymentIntentData.clientSecret
+                                        }}
+                                >
+                                                <BookingForm currentUser={currentUser} paymentIntent={paymentIntentData} />
+                                        </Elements> 
+                                )
                         }
                 </div>
         )

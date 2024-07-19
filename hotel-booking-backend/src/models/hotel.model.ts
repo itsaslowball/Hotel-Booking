@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Booking } from "./booking.model";
 
 export type HotelDocument = Hotel & Document;
 
@@ -42,7 +43,10 @@ export class Hotel{
         imageUrls:string[];
 
         @Prop({required:true})
-        lastUpdated:Date;
+        lastUpdated: Date;
+        
+        @Prop()
+        bookings: Booking[];
 }
 
 export const HotelSchema = SchemaFactory.createForClass(Hotel);

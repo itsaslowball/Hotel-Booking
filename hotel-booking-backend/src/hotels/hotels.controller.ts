@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, Param, Query, Req } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, Param, Post, Query, Req } from "@nestjs/common";
 import { HotelService } from "./hotels.service";
 import { Request } from "express";
 
@@ -13,8 +13,6 @@ export class HotelController {
                 const route = 'api/hotels';
                 return route;
         }
-
-
 
         @Get('/search')
         async searchHotels(@Query() query:any) {
@@ -103,5 +101,34 @@ export class HotelController {
         @Get('/:id')
         async getHotelById(@Param() param: any) {
                 return await this.hotelService.getHotelById(param.id);
+        }
+
+        @Post('/:hotelId/booking/payment-intent')
+        async createPaymentIntent(@Param() param: any, @Req() req: Request, @Body() body: any) {
+
+                const { numberOfNights } = body;
+                const hotelId = param.hotelId;
+                const userId = req.userId;
+
+                try {
+                        const res = await this.hotelService.createPaymentIntent(hotelId, userId, numberOfNights)
+                        return res;
+                }
+                catch (e) {
+                        throw new HttpException(e.message, e.status);
+                }
+        }
+
+        @Post('/:hotelId/bookings')
+        async createBooking(@Param() param: any, @Body() body: any, @Req() req: Request) {
+                try {
+                        const hotelId = param.hotelId;
+                        const paymentIntentId = body.paymentIntentId;
+                        const userId = req.userId;
+                        await this.hotelService.createBooking(hotelId, userId, paymentIntentId, body);
+                }
+                catch (e) {
+                        throw new HttpException(e.message, e.status);
+                }
         }
 }
