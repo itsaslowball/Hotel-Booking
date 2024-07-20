@@ -26,7 +26,6 @@ export class MyHotelsService {
                         const imageUrls = await Promise.all(uploadPromises);
                         return imageUrls;
                 } catch (error) {
-                        console.log("Error uploading images: ", error);
                         throw new HttpException("Error uploading images", 500);
                 }
         }
@@ -41,7 +40,6 @@ export class MyHotelsService {
                         return hotel;
                 }
                 catch (e) {
-                        console.log("Error creating hotel: ", e);
                         throw new HttpException("Error creating hotel", 500);
                 }
         }
@@ -52,7 +50,6 @@ export class MyHotelsService {
                         return hotels;
                 }
                 catch (e) {
-                        console.log("Error getting hotels: ", e);
                         throw new HttpException("Error getting hotels", 500);
                 }
         }
@@ -63,7 +60,6 @@ export class MyHotelsService {
                         return hotel;
                 }
                 catch (e) {
-                        console.log("Error getting hotel: ", e);
                         throw new HttpException("Error getting hotel", 500);
                 }
         }
@@ -87,7 +83,6 @@ export class MyHotelsService {
                         return hotel;
                 }
                 catch (e) {
-                        console.log("Error updating hotel: ", e);
                         throw new HttpException("Error updating hotel", 500);
                 }
         }

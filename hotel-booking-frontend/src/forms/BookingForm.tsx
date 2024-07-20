@@ -3,7 +3,7 @@ import { PaymentIntentResponse, UserType } from "../../../hotel-booking-backend/
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { StripeCardElement } from "@stripe/stripe-js";
 import { useSearchContext } from "../context/SearchContext";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
 import { useMutation } from "react-query";
 import { useAppContext } from "../context/AppContext";
@@ -31,11 +31,13 @@ export const BookingForm = ({ currentUser, paymentIntent }: Props) => {
         const elements = useElements();
         const search = useSearchContext();
         const { hotelId } = useParams();
-        const {showToast} = useAppContext();
+        const { showToast } = useAppContext();
+        const navigate = useNavigate();
 
         const { mutate: bookRoom , isLoading} = useMutation(apiClient.createRoomBooking, {
                 onSuccess: () => {
                         showToast({ message: "Room booked successfully", type: "SUCCESS" });
+                        navigate("/my-bookings");
                 },
                 onError: () => {
                         showToast({ message: "Error saving booking", type: "ERROR" });
@@ -58,17 +60,14 @@ export const BookingForm = ({ currentUser, paymentIntent }: Props) => {
         });
 
         const onSubmit = async (formData: BookingFormData) => {
-                console.log("formData", formData);
                 if (!stripe || !elements) { 
                         return;
                 }
-                console.log("paymentIntent", paymentIntent);
                 const result = await stripe.confirmCardPayment(paymentIntent.clientSecret, {
                         payment_method: {
                                 card:elements.getElement(CardElement) as StripeCardElement
                         }
                 })
-                console.log("result", result);
 
                 if (result.paymentIntent?.status === 'succeeded') { 
                         bookRoom({...formData, paymentIntentId: result.paymentIntent.id});

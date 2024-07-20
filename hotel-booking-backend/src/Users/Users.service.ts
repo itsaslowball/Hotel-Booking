@@ -42,7 +42,6 @@ export class UserService {
       return { token, user: newUser };
     } catch (error) {
       // Catch any errors during registration process
-      console.log('errro', error);
       if (error.status === 409) {
         throw new HttpException(
           'User with this email already exists',

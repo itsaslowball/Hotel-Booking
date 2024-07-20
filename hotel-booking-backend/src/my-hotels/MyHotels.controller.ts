@@ -32,7 +32,6 @@ export class MyHotelsController {
                         return this.myHotelsService.addHotel(imageFiles, newHotel, req.userId);
                 }
                 catch (e) {
-                        console.log("Error creating hotel: ", e);
                         throw new HttpException("Error creating hotel", 500);
                 }
         }
@@ -44,7 +43,6 @@ export class MyHotelsController {
                         return this.myHotelsService.getHotels(userId);
                 }
                 catch (e) {
-                        console.log("Error getting hotels: ", e);
                         throw new HttpException(e.message || 'Error getting hotels', 500);
                 }
         }
@@ -56,7 +54,6 @@ export class MyHotelsController {
                         return this.myHotelsService.getHotelById(userId, hotelId);
                 }
                 catch (e) {
-                        console.log("Error getting hotel: ", e);
                         throw new HttpException(e.message || 'Error getting hotel', 500);
                 }
         }
@@ -74,7 +71,6 @@ export class MyHotelsController {
                         return this.myHotelsService.updateHotel(userId, hotelId, updateBody, imageFiles);
                 }
                 catch (e) {
-                        console.log("Error updating hotel: ", e);
                         throw new HttpException(e.message || 'Error updating hotel', 500);
                 }
         }

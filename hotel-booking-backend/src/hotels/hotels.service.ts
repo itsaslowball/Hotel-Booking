@@ -6,10 +6,6 @@ import Stripe from 'stripe'
 import { Booking } from "src/models/booking.model";
 import { BookingType } from "src/shared/types";
 
-// const stripe = new Stripe("sk_test_51PcXmZG0RbPUYkvJGnYvTZi7FF0LJBuO5v6aAyg98yFlgPkIMOumAzj0K2XD2I0zmfpLvtrTc3K0vyQTNZlCXmxj009C2kvys2")
-// import Stripe from 'stripe';
-console.log("process", process.env)
-// console.log("process", process.env.STRIPE_API_KEY)
 @Injectable()
 export class HotelService {
         constructor(
@@ -46,8 +42,7 @@ export class HotelService {
         }
 
         async createPaymentIntent(hotelId: string, userId: string, numberOfNights: number) {
-                console.log("process", process.env.CLOUDINARY_CLOUD_NAME)
-                console.log("process2", process.env.STRIPE_API_KEY)
+
                 const stripe = new Stripe(process.env.STRIPE_API_KEY, { apiVersion: "2024-06-20" });
 
 
@@ -56,7 +51,6 @@ export class HotelService {
                         throw new HttpException('Hotel not found', 404);
                 }
                 const totalCost = hotel.pricePerNight * numberOfNights;
-                console.log("hello")
                 const paymentIntent = await stripe.paymentIntents.create({
                         amount: totalCost * 100,
                         currency: 'usd',

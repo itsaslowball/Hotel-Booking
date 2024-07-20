@@ -25,7 +25,6 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // console.log("CLOUDINARY_CLOUD_NAME: ", process.env.CLOUDINARY_CLOUD_NAME)
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -34,7 +33,6 @@ async function bootstrap() {
 
   // Start NestJS application
   await app.listen(8000);
-  console.log("Server started at http://localhost:8000")
 }
 
 bootstrap();
