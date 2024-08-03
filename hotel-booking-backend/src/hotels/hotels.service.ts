@@ -68,7 +68,7 @@ export class HotelService {
                         clientSecret: paymentIntent.client_secret.toString(),
                         totalCost: totalCost
                 }
-                return response;
+                return response
         }
 
         async createBooking(hotelId: string, userId: string, paymentIntentId: string, body: any) {
