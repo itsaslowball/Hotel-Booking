@@ -59,7 +59,7 @@ export class HotelService {
                                 userId: userId,
                         },
                         description: `Booking for ${hotel.name}`
-                });
+                })
                 if (!paymentIntent.client_secret) {
                         throw new HttpException('Error creating payment intent', 500);
                 }
